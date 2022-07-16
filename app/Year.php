@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Year extends Model
 {
-    use HasFactory;
     use SoftDeletes;
 
     protected $fillable = [
