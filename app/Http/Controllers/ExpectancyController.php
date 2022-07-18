@@ -66,13 +66,19 @@ class ExpectancyController extends Controller
             $filepath = public_path($locationToStore . "/" . $fileName);
 
             // Read the file and store its data into array
-            $initialCount = 2;
+            $initialCount = 0;
             $dataArray = array();
             $csvFile = fopen($filepath, "r");
             while (($filedata = fgetcsv($csvFile, 1000, ",")) !== FALSE) {
                 $num = count($filedata);
                 // Skip first two rows of headings
-                if ($initialCount == 2) {
+                if ($initialCount == 0) {
+                    $initialCount++;
+                    continue;
+                } elseif ($initialCount == 1) {
+                    $initialCount++;
+                    continue;
+                } elseif ($initialCount == 2) {
                     $initialCount++;
                     continue;
                 }
@@ -94,7 +100,7 @@ class ExpectancyController extends Controller
                             'country_code' => $importData[1],
                             'indicator_name' => $importData[2],
                             'year_id' => $year->id,
-                            'total' => $importData[$index + 3],
+                            'total' => doubleval($importData[$index + 3]),
                         ]);
                         $year->expectancies()->save($expectancy);
                     } catch (\Exception $e) {
@@ -109,22 +115,6 @@ class ExpectancyController extends Controller
             return back()->with('success', "$finalCount expectancy data successfully uploaded");
         }
     }
-
-    // public function getYears()
-    // {
-    //     $columnNames = [];
-    //     $years = [];
-
-    //     $columns = Schema::getColumnListing('expectancies');
-    //     for ($i = 4; $i < 35; $i++) {
-    //         $columnNames[] = $columns[$i];
-    //     }
-    //     foreach ($columnNames as $columnName) {
-    //         $x = substr($columnName, 5, 4);
-    //         $years[] = $x;
-    //     }
-    //     return $years;
-    // }
 
     public function deleteAllData()
     {

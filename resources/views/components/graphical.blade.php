@@ -14,19 +14,16 @@
                     <h2 class="f-w-400">{{ $currentCountry }}</h2>
                 </div>
                 <div>
-                    <form action="{{ route('welcome') }}" method="GET" class="filter-form">
-                        @csrf
-                        <label for="country">Country:
+                    <label for="country">Country:
 
-                            <select class="dropdown-select dropdown-select form-control" id="country" name="country"
-                                onchange="this.form.submit()">
-                                @foreach ($countries as $country)
-                                    <option value="{{ $country }}"
-                                        {{ $currentCountry == $country ? 'selected' : '' }}>
-                                        {{ $country }}</option>
-                                @endforeach
-                            </select></label>
-                    </form>
+                        <select class="dropdown-select dropdown-select form-control" id="country" name="country"
+                            onchange="this.form.submit()">
+                            @foreach ($countries as $country)
+                                <option value="{{ $country }}"
+                                    {{ $currentCountry == $country ? 'selected' : '' }}>
+                                    {{ $country }}</option>
+                            @endforeach
+                        </select></label>
                 </div>
 
             </div>

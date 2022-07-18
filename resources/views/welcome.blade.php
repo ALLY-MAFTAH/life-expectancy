@@ -66,7 +66,7 @@
 
                 <div class="row pt-5">
                     <div class="col-md-6 text-center">
-                        <h1 style="font-size: 30px; color:rgb(44, 11, 189);"><b>Life Expectancy Data</b></h1>
+                        <h1 style="font-size: 30px; color:rgb(44, 11, 189);"><b>Life Expectancy At Birth</b></h1>
                     </div>
                     <div class="col-md-6">
                         <div class="row">
@@ -109,6 +109,7 @@
                     </ul>
                 </div>
                 <form action="{{ route('welcome') }}" method="GET" id="filter-form">
+                    @csrf
                     <div class="tab-content">
                         <div id="tabular" class="tab-pane fade tabcontent show active">
                             @include('components.tabular')
@@ -129,8 +130,8 @@
     <div class="container">
         @include('components.upload_file_modal')
 
+
         <script src="{{ asset('js/app.js') }}"></script>
-        {{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
             integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
 
@@ -184,10 +185,7 @@
                             height: 300,
                             toolbar: {
                                 show: true
-                            },
-                            animations: {
-                                enabled: true
-                            },
+                            }
                         },
 
                         dataLabels: {
@@ -221,7 +219,10 @@
                                 })
                         }],
                         xaxis: {
-                            categories: @json($years)
+                            categories: @json($years),
+                            title: {
+                                text: 'Years'
+                            }
                         },
                         tooltip: {
                             fixed: {
@@ -239,6 +240,14 @@
                             },
                             marker: {
                                 show: true
+                            }
+                        },
+                        theme: {
+                            palette: 'palette1'
+                        },
+                        yaxis: {
+                            title: {
+                                text: 'Life expectance at birth'
                             }
                         }
                     };
