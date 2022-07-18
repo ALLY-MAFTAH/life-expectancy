@@ -13,12 +13,22 @@ class ExpectancyController extends Controller
     public function getExpectancyData(Request $request)
     {
         $year = $request->get('year', 2020);
-        $selectedYear = Year::where('name', $year)->first();
         $currentYear = $year;
+        $selectedYear = Year::where('name', $year)->first();
         $expectancies = $selectedYear->expectancies;
+
+        $country = $request->get('country', 'Aruba');
+        $currentCountry = $country;
+        $expects = Expectancy::where('country_name', $currentCountry)->get();
+
         $ex = new YearController();
         $years = $ex->index();
 
+        $countries = [];
+        $allExpectancies = Expectancy::all();
+        foreach ($allExpectancies->unique('country_name') as $ex) {
+            $countries[] = $ex->country_name;
+        }
         if (REQ::is('api/*'))
             return response()->json([
                 'Expectancies' => $expectancies,
@@ -26,8 +36,11 @@ class ExpectancyController extends Controller
             ], 200);
         return view('welcome')->with([
             'expectancies' => $expectancies,
+            'expects' => $expects,
             'years' => $years,
-            'currentYear' => $currentYear
+            'currentYear' => $currentYear,
+            'currentCountry' => $currentCountry,
+            'countries' => $countries
         ]);
     }
 
@@ -46,13 +59,13 @@ class ExpectancyController extends Controller
             $filepath = public_path($locationToStore . "/" . $fileName);
 
             // Read the file and store its data into array
-            $initialCount = 0;
+            $initialCount = 2;
             $dataArray = array();
             $csvFile = fopen($filepath, "r");
             while (($filedata = fgetcsv($csvFile, 1000, ",")) !== FALSE) {
                 $num = count($filedata);
-                // Skip first row of headings
-                if ($initialCount == 0) {
+                // Skip first two rows of headings
+                if ($initialCount == 2) {
                     $initialCount++;
                     continue;
                 }

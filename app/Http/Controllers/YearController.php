@@ -16,8 +16,10 @@ class YearController extends Controller
      */
     public function index()
     {
-        $years = Year::all();
-
+        $allYears = Year::all();
+        foreach ($allYears as $y) {
+            $years[]=$y->name;
+        }
         return $years;
     }
 
