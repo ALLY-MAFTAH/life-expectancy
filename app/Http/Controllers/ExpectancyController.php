@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Expectancy;
-use App\Models\Year;
+use App\Expectancy;
+use App\Year;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Request as REQ;
 use Illuminate\Support\Facades\Schema;
