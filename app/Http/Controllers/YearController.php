@@ -17,31 +17,26 @@ class YearController extends Controller
     public function index()
     {
         $allYears = Year::all();
+        $years=[];
         foreach ($allYears as $y) {
-            $years[]=$y->name;
+            $years[] = $y->name;
         }
         return $years;
     }
 
-    public function store(Request $request)
+    public function storeYears()
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required|unique:years'
-        ]);
-
-        if ($validator->fails()) {
-            return back()->withInput()->withErrors($validator);
+        for ($i = 1990; $i <= 2020; $i++) {
+            $year = new Year();
+            $year->name = $i;
+            $year->save();
         }
-
-        $year = new Year();
-        $year->name = $request->input('name');
-        $year->save();
 
         if (REQ::is('api/*'))
             return response()->json([
-                'Success' => "Successfully Posted Year"
+                'Success' => "Successfully Posted Years"
             ], 200);
-        return back()->with('success', "Successfully Posted Year");
+        return back()->with('success', "Successfully Posted Years");
     }
 
     public function deleteAllYears()

@@ -12,6 +12,15 @@ class ExpectancyController extends Controller
 {
     public function getExpectancyData(Request $request)
     {
+        $years = [];
+        $expects = [];
+        $ex = new YearController();
+        $years = $ex->index();
+
+        if ($years == []) {
+            return view('welcome', compact('years', 'expects'));
+        }
+
         $year = $request->get('year', 2020);
         $currentYear = $year;
         $selectedYear = Year::where('name', $year)->first();
@@ -21,8 +30,6 @@ class ExpectancyController extends Controller
         $currentCountry = $country;
         $expects = Expectancy::where('country_name', $currentCountry)->get();
 
-        $ex = new YearController();
-        $years = $ex->index();
 
         $countries = [];
         $allExpectancies = Expectancy::all();
@@ -77,9 +84,10 @@ class ExpectancyController extends Controller
             fclose($csvFile);
             $finalCount = 0;
             // Upload data
+
             foreach ($dataArray as $importData) {
                 $finalCount++;
-                foreach ($years as $index => $year) {
+                foreach (Year::all() as $index => $year) {
                     try {
                         $expectancy =  Expectancy::create([
                             'country_name' => $importData[0],

@@ -26,7 +26,7 @@ Route::get('/column-names', [ExpectancyController::class, 'getYears'])->name('co
 Route::delete('/delete-all', [ExpectancyController::class, 'deleteAllData'])->name('delete-all');
 
 // YEARS ROUTES
-Route::post('/store', [YearController::class, 'store'])->name('store');
+Route::post('/store-years', [YearController::class, 'storeYears'])->name('store-years');
 Route::get('/years', [YearController::class, 'index'])->name('years');
 // Route::get('/column-names', [YearController::class, 'getYears'])->name('column-names');
 Route::delete('/delete-years', [YearController::class, 'deleteAllYears'])->name('delete-years');

@@ -15,7 +15,7 @@ class CreateYearsTable extends Migration
     {
         Schema::create('years', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('name');
+            $table->integer('name')->unique();
             $table->timestamps();
             $table->softDeletes();
         });
